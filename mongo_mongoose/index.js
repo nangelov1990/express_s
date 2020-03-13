@@ -1,30 +1,23 @@
-const MongoClient = require('mongodb').MongoClient
+const mongoose = require('mongoose')
+const connection = 'mongodb://localhost:27017/mongoosedb'
 
-// Connection URL
-const url = 'mongodb://localhost:27017/'
+const Cat = mongoose.model('Cat', {
+  name: String,
+  age: Number
+})
 
-// Database name
-const dbName = 'mongo_test'
-
-const client = new MongoClient(url)
-
-client
-  .connect(err => {
-    if (err) console.error(err)
+mongoose
+  .connect(connection, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
     console.log('MongoDB up and running!')
-    const db = client.db(dbName)
 
-    const cats = db.collection('cats')
-    cats
-      // .insertMany([
-      //   { name: 'Hiko' },
-      //   { name: 'Miko' }
-      // ])
-      .find({ name: 'Hiko' })
-      .toArray()
-      .then(result => {
-        console.log(result)
-      })
+    const cat = new Cat({
+      name: 'Miki',
+      age: 'a'
+    })
 
-    client.close()
+    cat
+      .save()
+      .catch(console.error)
+      .then(console.log)
   })
