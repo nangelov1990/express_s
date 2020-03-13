@@ -11,13 +11,8 @@ mongoose
   .then(() => {
     console.log('MongoDB up and running!')
 
-    const cat = new Cat({
-      name: 'Miki',
-      age: 'a'
-    })
-
-    cat
-      .save()
+    Cat
+      .find()
       .catch(console.error)
       .then(console.log)
   })
